@@ -2,6 +2,7 @@ require "pry"
 
 class Cult
     attr_accessor :name, :location, :founding_year, :slogan, :followers
+    attr_reader :minimum_age
     @@all = []
 
     def initialize(attributes)
@@ -9,6 +10,7 @@ class Cult
         @location = attributes[:location]
         @founding_year = attributes[:founding_year]
         @slogan = attributes[:slogan]
+        @minimum_age = attributes[:minimum_age] ||= 0
         @@all << self
     end
 
@@ -16,9 +18,11 @@ class Cult
         @@all
     end
 
-    def recruit_follower(hash)
-        hash[:cult] = self
-        Bloodoath.new(hash)
+    def recruit_follower(attributes)
+        attributes[:cult] = self
+        if attributes[:follower][:age] > self.minimum_age
+            Bloodoath.new(attributes) 
+        end
     end
 
     def followers
@@ -79,6 +83,9 @@ class Cult
         h.max_by{ |k,v| v }
     end 
 
+
+
+    
 end
 
 binding.pry

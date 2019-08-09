@@ -11,7 +11,6 @@ class Follower
         @name = attributes[:name]
         @age = attributes[:age]
         @life_motto = attributes[:life_motto]
-
         @@all << self
     end
 
@@ -19,9 +18,9 @@ class Follower
         @@all
     end
 
-    def join_cult(hash)
-        hash[:follower] = self
-        Bloodoath.new(hash)
+    def join_cult(attributes)
+        attributes[:follower] = self
+        Bloodoath.new(attributes) if self.age > attributes[:cult][:minimum_age]
     end
 
     def self.of_a_certain_age(age)
@@ -58,5 +57,14 @@ class Follower
         end[0..9][0]
 
     end
+
+    def fellow_cult_members
+        self.all.select do |follower|
+            follower.cult == self.cult
+        end 
+    end
+
+   
+
 end
 binding.pry
