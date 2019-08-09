@@ -9,7 +9,6 @@ class Cult
         @location = attributes[:location]
         @founding_year = attributes[:founding_year]
         @slogan = attributes[:slogan]
-        @followers = []
         @@all << self
     end
 
@@ -20,6 +19,12 @@ class Cult
     def recruit_follower(hash)
         hash[:cult] = self
         Bloodoath.new(hash)
+    end
+
+    def followers
+         Bloodoath.all.select do |bos|
+            bos.cult == self
+         end
     end
 
     def cult_population
@@ -41,6 +46,39 @@ class Cult
             c.founding_year == year
         end
     end
+
+    def average_age
+       total = 0.0
+        followers.each do |follower|
+            total += follower.age
+        end
+        total / cult_population
+    end
+
+    def my_followers_mottos
+        followers.each do |follower|
+            puts follower.life_motto
+        end
+    end
+
+    def self.least_popular
+        least = self.first
+        self.all.each do |cult|
+            if cult.cult_population > least.cult_population
+                least = cult
+            end
+        end
+        return least
+    end
+
+    def self.most_common_location
+        h = Hash.new(0)
+        self.all.each do |cult|
+            h[cult.location]+= 1
+        end
+        h.max_by{ |k,v| v }
+    end 
+
 end
 
 binding.pry

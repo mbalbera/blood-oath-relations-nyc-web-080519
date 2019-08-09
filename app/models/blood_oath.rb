@@ -1,3 +1,5 @@
+require 'pry'
+
 class Bloodoath 
     attr_reader :date
     @@all = []
@@ -17,5 +19,14 @@ class Bloodoath
         @@all
     end 
 
+    def self.first_oath
+        h = Hash.new(9999)
+        self.all.each do |bloodoath|
+            h[bloodoath.cult] = bloodoath.date if h[bloodoath.cult] > bloodoath.date
+        end
+    end
+
 
 end
+
+binding.pry
