@@ -1,0 +1,14 @@
+hash = {name:"christianity",location:"europe", founding_year: 0, slogan: "Never doubt Jesus"}
+
+c = Cult.new(hash)
+
+c.recruit_follower("Mason")
+
+Cult.find_by_name("christianity")
+
+
+h2 = {name:"kunxi", age: 50, life_motto: "Jesus is #1"}
+
+f = Follower.new(h2)
+
+f.join_cult("Jesus Lives")
